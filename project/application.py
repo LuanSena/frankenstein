@@ -1,4 +1,4 @@
-from sanic import Sanic, response
+from sanic import Sanic
 from sanic.response import json
 
 app = Sanic()
@@ -7,11 +7,13 @@ payload = {
     "resources": [
         {
             "endpoint": "v1/start",
+            "method": "GET",
             "response_status": 200,
             "response": {"hello": "worldo"},
         },
         {
             "endpoint": "v1/begin",
+            "method": "GET",
             "response_status": 200,
             "response": {"banana": "monkey"},
         }
@@ -19,11 +21,11 @@ payload = {
 }
 
 
-@app.route('/<path:path>', methods=["POST", "GET"])
+@app.route('/<path:path>', methods=["POST", "GET", "PATCH", "DELETE", "PUT", "OPTIONS"])
 async def test(request, path, payload=payload):
     resources = payload["resources"]
     for resource in resources:
-        if path == resource["endpoint"]:
+        if path == resource["endpoint"] and request.method == resource["method"]:
             return json(resource["response"], resource["response_status"])
     return json({'message': 'path not found'}, 404)
 
