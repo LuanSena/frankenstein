@@ -40,6 +40,21 @@ def sanic_server(server_port):
     app.run(host='0.0.0.0', port=server_port)
 
 
+def render_doc():
+    resources = payload["resources"]
+    payload_data = str()
+    for resource in resources:
+        payload_data = payload_data + """
+        <h1>{endpoint}</h1>
+        <p>{method}</p>
+        """.format(endpoint=resource["endpoint"], method=resource["method"])
+
+    with open("./templates/documentation.html", 'r') as file:
+        tmp = str(file.read())
+    with open("result.html", "w") as nfile:
+        nfile.write(tmp.format(payload_data))
+
+
 if __name__ == '__main__':
     import argparse
 
@@ -49,3 +64,5 @@ if __name__ == '__main__':
 
     if args.server:
         sanic_server(args.server)
+    else:
+        render_doc()
