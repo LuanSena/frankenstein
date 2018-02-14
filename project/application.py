@@ -7,12 +7,14 @@ payload = {
     "resources": [
         {
             "endpoint": "v1/start",
+            "description": "bla bla bla bla bla bla bla",
             "method": "GET",
             "response_status": 200,
             "response": {"hello": "worldo"},
         },
         {
             "endpoint": "v1/begin",
+            "description": "ble ble ble ble ble ble",
             "method": "GET",
             "response_status": 200,
             "response": {"banana": "monkey"},
