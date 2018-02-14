@@ -30,9 +30,20 @@ def handle_request(request, path, json_payload: dict):
 
 
 @app.route('/<path:path>', methods=["POST", "GET", "PATCH", "DELETE", "PUT", "OPTIONS"])
-async def test(request, path):
+async def router(request, path):
     return handle_request(request, path, payload)
 
 
+def sanic_server(server_port):
+    app.run(host='0.0.0.0', port=server_port)
+
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000)
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--server', default=False, type=int, help="port to server")
+    args = parser.parse_args()
+
+    if args.server:
+        sanic_server(args.server)
